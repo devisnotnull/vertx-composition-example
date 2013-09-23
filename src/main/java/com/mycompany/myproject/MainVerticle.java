@@ -9,9 +9,6 @@ import org.vertx.java.core.buffer.Buffer;
 import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.http.HttpServerRequest;
 import org.vertx.java.core.http.RouteMatcher;
-import org.vertx.java.core.json.JsonArray;
-import org.vertx.java.core.json.impl.Json;
-import org.vertx.java.platform.Container;
 import org.vertx.java.platform.Verticle;
 
 public class MainVerticle extends Verticle {
@@ -20,30 +17,23 @@ public class MainVerticle extends Verticle {
 	public void start() {
 		
 		// register handlers
-		vertx.eventBus().registerHandler("ping", new PingHandler());		
+		vertx.eventBus().registerHandler("ping", new PingHandler());
+		vertx.eventBus().registerHandler("echo", new EchoHandler());
 		vertx.eventBus().registerHandler("sum", new SumHandler());
 		vertx.eventBus().registerHandler("square", new SquareHandler());
 		
 		
+		
 		// register web handlers
 		RouteMatcher rm = new RouteMatcher();
-		
-		rm.get("/ping", new Handler<HttpServerRequest>() {
-			public void handle(final HttpServerRequest req) {				
-				vertx.eventBus().send("ping", "Ping", new Handler<Message<String>>(){
-					public void handle(Message<String> event) {
-						req.response().end(event.body());						
-					}					
-				});				
-			}
-		});
-		
+				
+		rm.get("/ping", new RequestBodyHandoffHandler(vertx, "ping"));
+		rm.post("/echo", new RequestBodyHandoffHandler(vertx, "echo"));
 		rm.post("/sum", new RequestBodyHandoffHandler(vertx, "sum"));
 		rm.post("/square", new RequestBodyHandoffHandler(vertx, "square"));
 		
 		vertx.createHttpServer().requestHandler(rm).listen(8080);
 	}
-	
 	
 	/**
 	 * Get the body of the current (post) request and hand it off to
