@@ -21,6 +21,7 @@ public class MainVerticle extends Verticle {
 		vertx.eventBus().registerHandler("echo", new EchoHandler());
 		vertx.eventBus().registerHandler("sum", new SumHandler());
 		vertx.eventBus().registerHandler("square", new SquareHandler());
+		vertx.eventBus().registerHandler("range", new RangeHandler());
 		
 		
 		
@@ -31,6 +32,7 @@ public class MainVerticle extends Verticle {
 		rm.post("/echo", new RequestBodyHandoffHandler(vertx, "echo"));
 		rm.post("/sum", new RequestBodyHandoffHandler(vertx, "sum"));
 		rm.post("/square", new RequestBodyHandoffHandler(vertx, "square"));
+		rm.post("/range", new RequestBodyHandoffHandler(vertx, "range"));
 		
 		vertx.createHttpServer().requestHandler(rm).listen(8080);
 	}
