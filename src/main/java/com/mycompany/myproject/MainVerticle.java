@@ -37,7 +37,7 @@ public class MainVerticle extends Verticle {
 	
 	/**
 	 * Get the body of the current (post) request and hand it off to
-	 * some buss-address. register for reply and dan pass it back as http response.
+	 * some buss-address. register for reply and then pass it back as http response.
 	 * @author Eckart
 	 *
 	 */
