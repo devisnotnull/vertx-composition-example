@@ -8,7 +8,7 @@ import org.vertx.java.core.eventbus.Message;
 import org.vertx.java.core.json.JsonArray;
 import org.vertx.java.core.json.impl.Json;
 
-public class SquareHandler implements Handler<Message<Buffer>> {
+public class IncHandler implements Handler<Message<Buffer>> {
 
 	@Override
 	public void handle(Message<Buffer> event) {
@@ -19,14 +19,15 @@ public class SquareHandler implements Handler<Message<Buffer>> {
 		
 			for(int i=0; i<input.size(); i++) {
 				if(input.get(i) instanceof Integer) {
-					result.add((Integer) input.get(i) * (Integer) input.get(i));
+					result.add((Integer) input.get(i) + 1);
 				}
 			}
 			event.reply(new Buffer(result.encode()));
 		} else if(body instanceof Number) {
 			int arg = ((Number) body).intValue();
-			event.reply(new Buffer().appendString("" + (arg * arg)));
+			event.reply(new Buffer().appendString("" + (arg + 1)));
 		}
+		
 		
 	}
 

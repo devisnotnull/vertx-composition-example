@@ -17,10 +17,9 @@ public class MainVerticle extends Verticle {
 	public void start() {
 		
 		// register handlers
-		vertx.eventBus().registerHandler("ping", new PingHandler());
-		vertx.eventBus().registerHandler("echo", new EchoHandler());
 		vertx.eventBus().registerHandler("sum", new SumHandler());
 		vertx.eventBus().registerHandler("square", new SquareHandler());
+		vertx.eventBus().registerHandler("inc", new IncHandler());
 		vertx.eventBus().registerHandler("range", new RangeHandler());
 		
 		
@@ -28,10 +27,9 @@ public class MainVerticle extends Verticle {
 		// register web handlers
 		RouteMatcher rm = new RouteMatcher();
 				
-		rm.get("/ping", new RequestBodyHandoffHandler(vertx, "ping"));
-		rm.post("/echo", new RequestBodyHandoffHandler(vertx, "echo"));
 		rm.post("/sum", new RequestBodyHandoffHandler(vertx, "sum"));
 		rm.post("/square", new RequestBodyHandoffHandler(vertx, "square"));
+		rm.post("/inc", new RequestBodyHandoffHandler(vertx, "inc"));
 		rm.post("/range", new RequestBodyHandoffHandler(vertx, "range"));
 		
 		vertx.createHttpServer().requestHandler(rm).listen(8080);
